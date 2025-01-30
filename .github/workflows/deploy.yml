@@ -20,6 +20,5 @@ jobs:
         run: ls -R
 
       - name: Deploy with Ansible
-        run: |
-          cd my-website/ansible
-          ansible-playbook -i inventory.ini deploy.yml
+        run: ansible-playbook -i inventory.ini deploy.yml
+        working-directory: ./my-website/ansible
