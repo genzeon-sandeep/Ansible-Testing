@@ -1,0 +1,9 @@
+- name: Deploy Code to Local Server
+  hosts: local
+  tasks:
+    - name: Pull the latest code from GitHub
+      git:
+        repo: 'git@github.com:genzeon-sandeep/Ansible-Testing.git'
+        dest: /home/{{ ansible_user }}/app
+        version: main
+        accept_hostkey: yes
