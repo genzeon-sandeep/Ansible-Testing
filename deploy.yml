@@ -1,0 +1,13 @@
+---
+- name: Deploy Code to Local Server
+  hosts: localhost
+  gather_facts: yes
+
+  tasks:
+    - name: Pull the latest code from GitHub
+      git:
+        repo: 'https://github.com/genzeon-sandeep/Ansible-Testing.git'
+        dest: /home/sandeep/my-website
+        version: main
+        update: yes
+        clone: yes
