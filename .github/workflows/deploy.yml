@@ -16,5 +16,8 @@ jobs:
       - name: Install Ansible
         run: sudo apt update && sudo apt install -y ansible
 
+      - name: List files in current directory
+        run: ls -R
+
       - name: Deploy with Ansible
         run: cd ansible && ansible-playbook -i inventory.ini deploy.yml
