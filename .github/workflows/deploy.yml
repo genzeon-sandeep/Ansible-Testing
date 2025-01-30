@@ -30,5 +30,7 @@ jobs:
         env:
           ANSIBLE_HOST: ${{ secrets.ANSIBLE_HOST }}
           ANSIBLE_USER: ${{ secrets.ANSIBLE_USER }}
+          
+        working-directory: ./ansible  # Add this line to change the directory to ansible/
         run: |
-          ansible-playbook -i ansible/inventory.ini ansible/deploy.yml
+          ansible-playbook -i inventory.ini deploy.yml
