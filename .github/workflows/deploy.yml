@@ -16,9 +16,6 @@ jobs:
       - name: Install Ansible
         run: sudo apt update && sudo apt install -y ansible
 
-      - name: Change directory to ansible folder
-        run: cd ansible
-
       - name: Deploy with Ansible
         run: |
           cd ansible  # Navigate to the ansible directory
