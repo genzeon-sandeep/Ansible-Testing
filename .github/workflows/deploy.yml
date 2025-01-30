@@ -16,11 +16,19 @@ jobs:
       - name: Install Ansible
         run: sudo apt update && sudo apt install -y ansible
 
+      - name: Set up SSH keys
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.ANSIBLE_PRIVATE_KEY }}" > ~/.ssh/github_ansible
+          chmod 600 ~/.ssh/github_ansible
+          # Add GitHub's SSH host to known hosts to avoid security prompt
+          ssh-keyscan github.com >> ~/.ssh/known_hosts
+        env:
+          ANSIBLE_PRIVATE_KEY: ${{ secrets.ANSIBLE_PRIVATE_KEY }}
+
       - name: Deploy with Ansible
         env:
           ANSIBLE_HOST: ${{ secrets.ANSIBLE_HOST }}
           ANSIBLE_USER: ${{ secrets.ANSIBLE_USER }}
         run: |
-          echo "${{ secrets.ANSIBLE_PRIVATE_KEY }}" > ~/.ssh/github_ansible
-          chmod 600 ~/.ssh/github_ansible
           ansible-playbook -i ansible/inventory.ini ansible/deploy.yml
