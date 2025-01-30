@@ -18,7 +18,7 @@ jobs:
 
       - name: Deploy with Ansible
         run: |
-          cd ansible  # Navigate to the ansible directory
+          cd /home/sandeep/ansible  # Navigate to the ansible directory
           echo "${{ secrets.ANSIBLE_PRIVATE_KEY }}" > ~/.ssh/github_ansible
           chmod 600 ~/.ssh/github_ansible
           ansible-playbook -i inventory.ini deploy.yml
