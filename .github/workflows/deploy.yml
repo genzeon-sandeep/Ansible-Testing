@@ -1,0 +1,26 @@
+name: Deploy to Local Server
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Install Ansible
+        run: sudo apt update && sudo apt install -y ansible
+
+      - name: Deploy with Ansible
+        env:
+          ANSIBLE_HOST: ${{ secrets.ANSIBLE_HOST }}
+          ANSIBLE_USER: ${{ secrets.ANSIBLE_USER }}
+        run: |
+          echo "${{ secrets.ANSIBLE_PRIVATE_KEY }}" > ~/.ssh/github_ansible
+          chmod 600 ~/.ssh/github_ansible
+          ansible-playbook -i ansible/inventory.ini ansible/deploy.yml
