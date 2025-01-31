@@ -13,6 +13,11 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
+      - name: Set up SSH
+        run: |
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > private_key.pem
+          chmod 600 private_key.pem
+
       - name: Install Ansible
         run: sudo apt update && sudo apt install -y ansible
 
@@ -20,5 +25,8 @@ jobs:
         run: ls -R
 
       - name: Deploy with Ansible
-        run: ansible-playbook -i inventory.ini deploy.yml
-        working-directory: ./my-website/ansible
+        env:
+          ANSIBLE_USER: ${{ secrets.ANSIBLE_USER }}
+          ANSIBLE_HOST_KEY_CHECKING: False
+        run: |
+          ansible-playbook -i inventory.ini deploy.yml --private-key private_key.pem -u ${{ secrets.ANSIBLE_USER }}
