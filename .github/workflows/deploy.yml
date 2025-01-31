@@ -21,6 +21,7 @@ jobs:
           eval "$(ssh-agent -s)"
           ssh-add ~/.ssh/id_rsa
           ssh-keyscan github.com >> ~/.ssh/known_hosts
+          ssh-add -l  # Check if the key is loaded properly
 
       - name: Debug SSH Private Key
         run: echo "${{ secrets.SSH_PRIVATE_KEY }}" | head -n 10
