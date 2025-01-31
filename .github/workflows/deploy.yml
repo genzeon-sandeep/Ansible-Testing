@@ -31,6 +31,9 @@ jobs:
           git config --global credential.helper store
           echo "https://${{ secrets.TOKEN }}@github.com" > ~/.git-credentials
 
+      - name: Debug Environment Variables
+        run: env | sort
+
       - name: Run Ansible Playbook
         env:
           GITHUB_USERNAME: "genzeon-sandeep"
