@@ -17,10 +17,12 @@ jobs:
         run: |
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > private_key.pem
           chmod 600 private_key.pem
+          
+      - name: Debug SSH Private Key
+        run: echo "${{ secrets.SSH_PRIVATE_KEY }}" | head -n 10
 
       - name: Test SSH Connection
         run: ssh -T git@github.com
-
 
       - name: Install Ansible
         run: sudo apt update && sudo apt install -y ansible
