@@ -27,10 +27,9 @@ jobs:
       - name: Debug - List All Files
         run: ls -R
 
-      - name: Deploy with Ansible
+      - name: Run Ansible Playbook
         env:
           ANSIBLE_USER: ${{ secrets.ANSIBLE_USER }}
           ANSIBLE_HOST_KEY_CHECKING: False
         run: |
-          cd ansible  # Change into the ansible directory
-          ansible-playbook -i inventory.ini deploy.yml -u ${{ secrets.ANSIBLE_USER }}
+          ansible-playbook -i inventory/hosts.ini playbooks/deploy_web_server.yml --private-key private_key.pem -u ${{ secrets.ANSIBLE_USER }}
