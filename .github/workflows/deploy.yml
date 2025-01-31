@@ -12,22 +12,8 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
-
-      - name: Set up SSH Agent
-        run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          eval "$(ssh-agent -s)"
-          ssh-add ~/.ssh/id_rsa
-          ssh-keyscan github.com >> ~/.ssh/known_hosts
-          ssh-add -l  # Check if the key is loaded properly
-
-      - name: Debug SSH Private Key
-        run: echo "${{ secrets.SSH_PRIVATE_KEY }}" | head -n 10
-
-      - name: Test SSH Connection
-        run: ssh -T git@github.com
+        with:
+          token: ${{ secrets.TOKEN }}
 
       - name: Install Ansible
         run: sudo apt update && sudo apt install -y ansible
@@ -38,10 +24,17 @@ jobs:
       - name: Debug - List All Files
         run: ls -R
 
+      - name: Configure Git for HTTPS Authentication
+        run: |
+          git config --global user.email "sandeep.kumar@genzeon.com"
+          git config --global user.name "genzeon-sandeep"
+          git config --global credential.helper store
+          echo "https://${{ secrets.TOKEN }}@github.com" > ~/.git-credentials
+
       - name: Run Ansible Playbook
         env:
           ANSIBLE_USER: ${{ secrets.ANSIBLE_USER }}
           ANSIBLE_HOST_KEY_CHECKING: False
         run: |
           cd ansible  # Change into the ansible directory
-          ansible-playbook -i inventory.ini deploy.yml --private-key private_key.pem -u ${{ secrets.ANSIBLE_USER }}
+          ansible-playbook -i inventory.ini deploy.yml -u ${{ secrets.ANSIBLE_USER }}
