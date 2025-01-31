@@ -21,7 +21,10 @@ jobs:
       - name: Install Ansible
         run: sudo apt update && sudo apt install -y ansible
 
-      - name: List files in current directory
+      - name: Debug - Check Current Directory
+        run: pwd
+
+      - name: Debug - List All Files
         run: ls -R
 
       - name: Deploy with Ansible
