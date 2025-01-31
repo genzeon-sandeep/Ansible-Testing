@@ -15,6 +15,14 @@ jobs:
         with:
           token: ${{ secrets.TOKEN }}
 
+      - name: Create GIT_ASKPASS Script
+        run: |
+          echo '#!/bin/sh' > /tmp/git-askpass.sh
+          echo 'echo $GITHUB_TOKEN' >> /tmp/git-askpass.sh
+          chmod +x /tmp/git-askpass.sh
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+
       - name: Install Ansible
         run: sudo apt update && sudo apt install -y ansible
 
