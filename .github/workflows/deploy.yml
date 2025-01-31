@@ -34,6 +34,9 @@ jobs:
       - name: Debug Environment Variables
         run: env | sort
 
+      - name: Debug Git Remote URL
+        run: git config --global -l
+
       - name: Run Ansible Playbook
         env:
           GITHUB_USERNAME: "genzeon-sandeep"
