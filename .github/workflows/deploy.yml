@@ -32,4 +32,5 @@ jobs:
           ANSIBLE_USER: ${{ secrets.ANSIBLE_USER }}
           ANSIBLE_HOST_KEY_CHECKING: False
         run: |
-          ansible-playbook -i inventory.ini deploy.yml --private-key private_key.pem -u ${{ secrets.ANSIBLE_USER }}
+          cd ansible  # Change into the ansible directory
+          ansible-playbook -i inventory.ini deploy.yml --private-key ../private_key.pem -u ${{ secrets.ANSIBLE_USER }}
