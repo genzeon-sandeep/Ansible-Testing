@@ -16,9 +16,7 @@ jobs:
       - name: Set up SSH Agent
         run: |
           eval "$(ssh-agent -s)"
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > private_key.pem
-          chmod 600 private_key.pem
-          ssh-add private_key.pem
+          ssh-add ~/.ssh/id_rsa
 
       - name: Install Ansible
         run: sudo apt update && sudo apt install -y ansible
